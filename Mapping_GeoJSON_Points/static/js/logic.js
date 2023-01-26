@@ -98,9 +98,21 @@ let sanFranAirport = {
 
 // The onEachFeature Function
 
-L.geoJSON(sanFranAirport, {
-    onEachFeature: function(feature, layer) {
-        console.log(layer);
-        layer.bindPopup(`<h2>Airport code: ${feature.properties.faa}</h2><hr><h3>Airport name: ${feature.properties.name}</h3>`);
-    }
-}).addTo(map);
+// L.geoJSON(sanFranAirport, {
+//     onEachFeature: function(feature, layer) {
+//         console.log(layer);
+//         layer.bindPopup(`<h2>Airport code: ${feature.properties.faa}</h2><hr><h3>Airport name: ${feature.properties.name}</h3>`);
+//     }
+// }).addTo(map);
+
+// Accessing the airport GeoJSON URL
+let airportData = "https://raw.githubusercontent.com/rrantxa/Mapping_Earthquakes/Mapping_GeoJSON_Points/Mapping_GeoJSON_Points/static/json/majorAirports.json"
+
+// Grabbing our GeoJSON data.
+d3.json(airportData).then(function(data) {
+    console.log(data);
+    // Creating a GeoJSON layer with the data.
+    L.geoJSON(data, {onEachFeature: function(feature, layer){
+        layer.bindPopup(`<h3>Airport code: ${feature.properties.faa}</h3><hr><h3>Airport name: ${feature.properties.name}</h3>`)
+    }}).addTo(map);
+});
